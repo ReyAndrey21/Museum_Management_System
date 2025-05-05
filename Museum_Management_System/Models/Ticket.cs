@@ -12,7 +12,8 @@ public class Ticket
     [Column("price")]
     public double Price { get; set; }
     [Column("purchase_date")]
-    public DateTime PurchaseDate { get; set; }
+    [DataType(DataType.Date)]
+    public DateOnly PurchaseDate { get; set; }
     [Column("ticket_type")]
     public string? TicketType { get; set; }
     [ForeignKey("Users")]

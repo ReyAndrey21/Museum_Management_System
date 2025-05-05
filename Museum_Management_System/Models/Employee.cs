@@ -12,7 +12,8 @@ public class Employee
     [Column("last_name")]
     public string? LastName { get; set; }
     [Column("hire_date")]
-    public DateTime HireDate { get; set; }
+    [DataType(DataType.Date)]
+    public DateOnly HireDate { get; set; }
     [Column("salary")]
     public double Salary { get; set; }
 }

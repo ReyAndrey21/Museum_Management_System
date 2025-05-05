@@ -17,9 +17,11 @@ public class Tour
     [Column("duration")]
     public int Duration { get; set; }
     [Column("date_tour")]
-    public DateTime DateTour { get; set; }
+    [DataType(DataType.Date)]
+    public DateOnly DateTour { get; set; }
     [Column("hour_tour")]
-    public TimeSpan HourTour { get; set; }
+    [DataType(DataType.Time)]
+    public TimeOnly HourTour { get; set; }
     [ForeignKey("TourGuide")]
     [Column("id_tour_guide")]
 

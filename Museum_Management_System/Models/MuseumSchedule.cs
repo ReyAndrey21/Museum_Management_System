@@ -11,7 +11,9 @@ public class MuseumSchedule
     [Column("day_of_week")]
     public string? DayOfWeek { get; set; }
     [Column("opening_hour")]
-    public TimeSpan OpeningHour { get; set; }
+    [DataType(DataType.Time)]
+    public TimeOnly OpeningHour { get; set; }
     [Column("closing_hour")]
-    public TimeSpan ClosingHour { get; set; }
+    [DataType(DataType.DateTime)]
+    public TimeOnly ClosingHour { get; set; }
 }

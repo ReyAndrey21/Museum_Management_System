@@ -12,9 +12,11 @@ public class TourGuideSchedule
     [Column("day_of_week")]
     public string? DayOfWeek { get; set; }
     [Column("start_hour")]
-    public TimeSpan StartHour { get; set; }
+    [DataType(DataType.Time)]
+    public TimeOnly StartHour { get; set; }
     [Column("end_hour")]
-    public TimeSpan EndHour { get; set; }
+    [DataType(DataType.Time)]
+    public TimeOnly EndHour { get; set; }
     [ForeignKey("TourGuide")]
     [Column("id_tour_guide")]
 

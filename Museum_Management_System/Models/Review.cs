@@ -15,7 +15,8 @@ public class Review
     [Column("comment")]
     public string? Comment { get; set; }
     [Column("date_review")]
-    public DateTime DateReview { get; set; }
+    [DataType(DataType.Date)]
+    public DateOnly DateReview { get; set; }
     [ForeignKey("Users")]
     [Column("id_users")]
     public int IdUsers { get; set; }
