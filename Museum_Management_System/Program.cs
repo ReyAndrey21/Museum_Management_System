@@ -4,6 +4,7 @@ using Museum_Management_System.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -19,15 +20,18 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapStaticAssets();
 
+
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=UsersAuth}/{action=Login}/{id?}")
     .WithStaticAssets();
 
 
