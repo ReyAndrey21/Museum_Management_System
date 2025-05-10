@@ -17,5 +17,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<TourBooking> TourBookings { get; set; }
     public DbSet<Discount> Discounts { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<TicketType> TicketTypes { get; set; }
 
 }
