@@ -1,0 +1,34 @@
+﻿@model List<Museum_Management_System.Models.Employee>
+@{
+    ViewData["Title"] = "Employees";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<h2>Employees</h2>
+<a href="/Admin/AddEmployee" class="btn btn-primary mb-3">Add New Employee</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Hire Date</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.FirstName</td>
+                <td>@e.LastName</td>
+                <td>@e.HireDate.ToString("yyyy-MM-dd")</td>
+                <td>@e.Salary.ToString("C")</td>
+                <td>
+                    <a href="/Admin/UpdateEmployee/@e.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/Admin/DeleteEmployee/@e.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

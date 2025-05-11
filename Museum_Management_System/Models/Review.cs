@@ -17,7 +17,7 @@ public class Review
     [Column("date_review")]
     [DataType(DataType.Date)]
     public DateOnly DateReview { get; set; }
-    [ForeignKey("Users")]
+    [ForeignKey("User")]
     [Column("id_users")]
     public int IdUsers { get; set; }
     public Users? User { get; set; }

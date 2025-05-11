@@ -31,4 +31,6 @@ public class Users
     public ICollection<Ticket>? Tickets { get; set; }
     public ICollection<Review>? Reviews { get; set; }
     public ICollection<TourBooking>? TourBookings { get; set; }
+
+    public TourGuide? TourGuides { get; set; }
 }

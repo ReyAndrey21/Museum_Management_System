@@ -1,0 +1,26 @@
+﻿@model Museum_Management_System.Models.Section
+@{
+    ViewData["Title"] = "Add Section";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Add Section</h2>
+
+<form asp-action="AddSection" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="NameSection" class="form-label">Name</label>
+        <input asp-for="NameSection" class="form-control" />
+        <span asp-validation-for="NameSection" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ImageSectionFile" class="form-label">Upload Image</label>
+        <input asp-for="ImageSectionFile" type="file" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Add Section</button>
+    <a href="/Admin/IndexSections" class="btn btn-secondary">Back</a>
+</form>

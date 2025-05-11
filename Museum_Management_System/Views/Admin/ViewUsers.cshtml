@@ -1,0 +1,45 @@
+﻿@model List<Museum_Management_System.Models.Users>
+
+@{
+    ViewData["Title"] = "View All Users";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>All Registered Users</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID Users</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Role</th>
+            <th>Profile Picture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.IdUsers</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Role</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(user.ProfilePicture))
+                    {
+                        <img src="~/images/profile_picture/@user.ProfilePicture" width="80" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">No picture</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

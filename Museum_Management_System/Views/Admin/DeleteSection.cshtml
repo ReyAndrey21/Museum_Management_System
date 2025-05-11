@@ -1,0 +1,17 @@
+﻿@model Museum_Management_System.Models.Section
+@{
+    ViewData["Title"] = "Delete Section";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Delete Section</h2>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete <strong>@Model.NameSection</strong>?
+</div>
+
+<form asp-action="ConfirmDeleteSection">
+    <input type="hidden" asp-for="IdSection" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="/Admin/IndexSections" class="btn btn-secondary">Cancel</a>
+</form>

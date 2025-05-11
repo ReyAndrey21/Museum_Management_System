@@ -1,0 +1,38 @@
+﻿@model List<Museum_Management_System.Models.Section>
+@{
+    ViewData["Title"] = "All Sections";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Sections</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+			<th>ID Section</th>
+            <th>Name Section</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sec in Model)
+        {
+            <tr>
+				<td>@sec.IdSection</td>
+                <td>@sec.NameSection</td>
+                <td>@sec.Description</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(sec.ImageSection))
+                    {
+                        <img src="~/images/images_sections/@sec.ImageSection" width="100" />
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-controller="Section" asp-action="DetailsSections" asp-route-id="@sec.IdSection">View details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

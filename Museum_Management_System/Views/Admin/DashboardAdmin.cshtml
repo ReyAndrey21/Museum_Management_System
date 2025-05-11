@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card text-bg-primary h-100">
+            <div class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="card-text">@ViewBag.UserCount registered</p>
+                <a href="/Admin/ViewUsers" class="btn btn-light w-100">View users</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-success h-100">
+            <div class="card-body">
+                <h5 class="card-title">Employees</h5>
+                <p class="card-text">@ViewBag.EmployeeCount total</p>
+				<a href="/Employee/ListEmployees" class="btn btn-light w-100">View employees</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-warning h-100">
+            <div class="card-body">
+                <h5 class="card-title">Exhibits</h5>
+                <p class="card-text">@ViewBag.ExhibitCount available</p>
+                <a href="/Exhibit/ListExhibits" class="btn btn-light w-100">View exhibits</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-info h-100">
+            <div class="card-body">
+                <h5 class="card-title">Sections</h5>
+                <p class="card-text">@ViewBag.SectionCount total</p>
+                <a href="/Section/ListSections" class="btn btn-light w-100">View sections</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-3">
+    <div class="col-md-3">
+        <div class="card text-bg-secondary h-100">
+            <div class="card-body">
+                <h5 class="card-title">Reviews</h5>
+                <p class="card-text">@ViewBag.ReviewCount submitted</p>
+                <a href="/Admin/ViewAllReviews" class="btn btn-light w-100">View reviews</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-dark h-100">
+            <div class="card-body">
+                <h5 class="card-title">Tickets</h5>
+                <p class="card-text">@ViewBag.TicketCount sold</p>
+                <a href="/Admin/TicketList" class="btn btn-light w-100">Manage Tickets</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-danger h-100">
+            <div class="card-body">
+                <h5 class="card-title">FAQs</h5>
+                <p class="card-text">@ViewBag.FaqCount entries</p>
+                <a href="/Admin/ListFAQ" class="btn btn-light w-100">View FAQ</a>
+            </div>
+        </div>
+    </div>
+</div>

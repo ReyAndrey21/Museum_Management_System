@@ -1,0 +1,28 @@
+﻿@model Museum_Management_System.Models.Employee
+@{
+    ViewData["Title"] = "Update Employee";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Update Employee</h2>
+
+<form asp-action="UpdateEmployee" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label">First Name</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label">Last Name</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="HireDate" class="form-label">Hire Date</label>
+        <input asp-for="HireDate" type="date" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Salary" class="form-label">Salary</label>
+        <input asp-for="Salary" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Update</button>
+</form>

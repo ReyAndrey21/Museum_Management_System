@@ -12,7 +12,7 @@ public class TourGuide
     public string? Status { get; set; }
     [Column("foreign_languages")]
     public string? ForeignLanguages { get; set; }
-    [ForeignKey("Users")]
+    [ForeignKey("User")]
     [Column("id_users")]
     public int IdUsers { get; set; }
     public Users? User { get; set; }

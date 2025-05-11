@@ -1,0 +1,40 @@
+﻿@model List<Museum_Management_System.Models.Section>
+@{
+    ViewData["Title"] = "Sections";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Sections</h2>
+<a href="/Admin/AddSection" class="btn btn-success mb-3">Add New Section</a>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+			<th>ID Section</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sec in Model)
+        {
+            <tr>
+				<td>@sec.IdSection</td>
+                <td>@sec.NameSection</td>
+                <td>@sec.Description</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(sec.ImageSection))
+                    {
+                        <img src="~/images/images_sections/@sec.ImageSection" width="100" />
+                    }
+                </td>
+                <td>
+                    <a href="/Admin/UpdateSection/@sec.IdSection" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/Admin/DeleteSection/@sec.IdSection" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

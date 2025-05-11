@@ -1,0 +1,17 @@
+﻿@model Museum_Management_System.Models.TicketType
+@{
+    ViewData["Title"] = "Delete Ticket Type";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Delete Ticket Type</h2>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete <strong>@Model.TypeName</strong>?
+</div>
+
+<form asp-action="ConfirmDeleteTicketType" method="post">
+    <input type="hidden" asp-for="IdTicketType" />
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+    <a href="/Admin/IndexTicketTypes" class="btn btn-secondary">Cancel</a>
+</form>

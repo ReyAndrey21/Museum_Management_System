@@ -1,0 +1,46 @@
+﻿@model Museum_Management_System.Models.Exhibit
+@{
+    ViewData["Title"] = "Edit Exhibit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Edit Exhibit</h2>
+<form asp-action="UpdateExhibit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="IdExhibit" />
+
+    <div class="mb-3">
+        <label asp-for="NameExhibit" class="form-label">Name</label>
+        <input asp-for="NameExhibit" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="HistoricalPeriod" class="form-label">Historical Period</label>
+        <input asp-for="HistoricalPeriod" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryExhibit" class="form-label">Category</label>
+        <input asp-for="CategoryExhibit" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdSection" class="form-label">Section ID</label>
+        <input asp-for="IdSection" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ImageExhibitFile" class="form-label">Upload New Image</label>
+        <input asp-for="ImageExhibitFile" type="file" class="form-control" />
+        @if (!string.IsNullOrEmpty(Model.ImageExhibit))
+        {
+            <img src="~/images/images_exhibits/@Model.ImageExhibit" width="120" class="mt-2" />
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

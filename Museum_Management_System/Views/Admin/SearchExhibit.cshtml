@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Search Exhibit";
+}
+
+<h2>Search Exhibit</h2>
+
+<form asp-action="SearchExhibit" method="get">
+    <div class="form-group">
+        <label for="name">Exhibit Name</label>
+        <input type="text" class="form-control" id="name" name="name" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<h3>Search Results</h3>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Section</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exhibit in Model)
+            {
+                <tr>
+                    <td>@exhibit.NameExhibit</td>
+                    <td>@exhibit.CategoryExhibit</td>
+                    <td>@exhibit.Section?.NameSection</td>
+                    <td>
+                        <a href="@Url.Action("UpdateExhibit", new { id = exhibit.IdExhibit })" class="btn btn-info">Edit</a>
+                        <a href="@Url.Action("DeleteExhibit", new { id = exhibit.IdExhibit })" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No exhibits found matching your criteria.</p>
+}

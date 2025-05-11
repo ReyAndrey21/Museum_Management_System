@@ -10,10 +10,10 @@ public class TourBooking
     public int IdTourBooking { get; set; }
     [Column("number_tickets")]
     public int NumberTickets { get; set; }
-    [ForeignKey("Users")]
+    [ForeignKey("User")]
     [Column("id_users")]
 
-    public int UserId { get; set; }
+    public int IdUsers { get; set; }
     public Users? User { get; set; }
     [ForeignKey("Tour")]
     [Column("id_tour")]

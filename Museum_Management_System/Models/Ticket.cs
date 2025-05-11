@@ -18,7 +18,7 @@ public class Ticket
     [Column("id_ticket_type")]
     public int IdTicketType { get; set; }
     public TicketType? TicketType { get; set; }
-    [ForeignKey("Users")]
+    [ForeignKey("User")]
     [Column("id_users")]
     public int IdUsers { get; set; }
     public Users? User { get; set; }

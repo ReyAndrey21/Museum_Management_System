@@ -1,0 +1,33 @@
+﻿@model List<Museum_Management_System.Models.TicketType>
+@{
+    ViewData["Title"] = "Ticket Types";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Ticket Types</h2>
+<a href="/Admin/AddTicketType" class="btn btn-primary mb-3">Add New Ticket Type</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Base Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdTicketType</td>
+                <td>@item.TypeName</td>
+                <td>@item.BasePrice.ToString("C")</td>
+                <td>
+                    <a href="/Admin/UpdateTicketType/@item.IdTicketType" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/Admin/DeleteTicketType/@item.IdTicketType" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,19 @@
+﻿@model Museum_Management_System.Models.TicketType
+@{
+    ViewData["Title"] = "Add Ticket Type";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Add Ticket Type</h2>
+
+<form asp-action="AddTicketType" method="post">
+    <div class="mb-3">
+        <label asp-for="TypeName" class="form-label">Type Name</label>
+        <input asp-for="TypeName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="BasePrice" class="form-label">Base Price</label>
+        <input asp-for="BasePrice" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+</form>

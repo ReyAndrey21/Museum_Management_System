@@ -28,6 +28,6 @@ public class Tour
     public int IdTourGuide { get; set; }
     public TourGuide? TourGuide { get; set; }
 
-    public ICollection<TourBooking>? Bookings { get; set; }
+    public ICollection<TourBooking>? TourBookings { get; set; }
     public ICollection<Review>? Reviews { get; set; }
 }

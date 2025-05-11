@@ -1,0 +1,37 @@
+﻿@model List<Museum_Management_System.Models.Exhibit>
+@{
+    ViewData["Title"] = "All Exhibits";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>All Exhibits</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Section</th>
+            <th>Category</th>
+            <th>Historical Period</th>
+            <th>Image</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exhibit in Model)
+        {
+            <tr>
+                <td>@exhibit.NameExhibit</td>
+                <td>@exhibit.Section?.NameSection</td>
+                <td>@exhibit.CategoryExhibit</td>
+                <td>@exhibit.HistoricalPeriod</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(exhibit.ImageExhibit))
+                    {
+                        <img src="~/images/images_exhibits/@exhibit.ImageExhibit" width="100" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

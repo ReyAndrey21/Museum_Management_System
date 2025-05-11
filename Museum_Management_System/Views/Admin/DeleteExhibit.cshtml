@@ -1,0 +1,17 @@
+﻿@model Museum_Management_System.Models.Exhibit
+@{
+    ViewData["Title"] = "Delete Exhibit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Delete Exhibit</h2>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete <strong>@Model.NameExhibit</strong>?
+</div>
+
+<form asp-action="ConfirmDeleteExhibit" method="post">
+    <input type="hidden" asp-for="IdExhibit" />
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+    <a href="/Admin/IndexExhibits" class="btn btn-secondary">Cancel</a>
+</form>

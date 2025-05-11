@@ -1,0 +1,37 @@
+﻿@model Museum_Management_System.Models.Section
+@{
+    ViewData["Title"] = "Section Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>@Model.NameSection</h2>
+
+<div class="mb-3">
+    <strong>Description:</strong>
+    <p>@Model.Description</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.ImageSection))
+{
+    <div class="mb-3">
+        <strong>Image:</strong><br />
+        <img src="~/images/images_sections/@Model.ImageSection" width="300" />
+    </div>
+}
+
+@if (Model.Exhibits != null && Model.Exhibits.Any())
+{
+    <h4>Exhibits in this Section</h4>
+    <ul class="list-group">
+        @foreach (var exhibit in Model.Exhibits)
+        {
+            <li class="list-group-item">
+                <strong>@exhibit.NameExhibit</strong> – @exhibit.HistoricalPeriod
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p class="text-muted">No exhibits found in this section.</p>
+}
