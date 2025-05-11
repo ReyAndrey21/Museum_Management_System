@@ -16,7 +16,7 @@ namespace Museum_Management_System.Controllers
             _env = env;
         }
 
-        // Dashboard
+        
         public IActionResult DashboardAdmin()
         {
             ViewBag.UserCount = _context.Users.Count();
@@ -31,10 +31,10 @@ namespace Museum_Management_System.Controllers
 
         public IActionResult Logout() => RedirectToAction("Logout", "UsersAuth");
 
-        // USERS
+        
         public IActionResult ViewUsers() => View(_context.Users.ToList());
 
-        // EMPLOYEES
+        
         public IActionResult IndexEmployees() => View(_context.Employees.ToList());
 
         public IActionResult AddEmployee() => View();
@@ -185,13 +185,11 @@ namespace Museum_Management_System.Controllers
         public IActionResult SearchExhibit(string? name)
         {
             var result = _context.Exhibits
-                .Include(e => e.Section)
-                .Where(e => e.NameExhibit.Contains(name ?? ""))
-                .ToList();
+                .Include(e => e.Section).Where(e => e.NameExhibit.Contains(name ?? "")).ToList();
             return View("IndexExhibits", result);
         }
 
-        // TICKETS
+        
         public IActionResult IndexTicketTypes() => View(_context.TicketTypes.ToList());
 
         public IActionResult AddTicketType() => View();
@@ -239,47 +237,49 @@ namespace Museum_Management_System.Controllers
         public IActionResult ViewAllReviews() =>
             View(_context.Reviews.Include(r => r.User).Include(r => r.Exhibit).ToList());
 
-        // SCHEDULE
-        // GET
-        public IActionResult ModifySchedule()
+        
+        public IActionResult IndexMuseumSchedule()
         {
-            var schedule = _context.MuseumSchedules.FirstOrDefault();
-            return View(schedule ?? new MuseumSchedule()); // trimitem un obiect gol dacă nu există program
+            return View(_context.MuseumSchedules.ToList());
         }
 
-        // POST
+        public IActionResult AddMuseumSchedule() => View();
+
         [HttpPost]
-        public IActionResult ModifySchedule(MuseumSchedule schedule)
+        public IActionResult AddMuseumSchedule(MuseumSchedule schedule)
         {
             if (ModelState.IsValid)
             {
-                var existing = _context.MuseumSchedules.FirstOrDefault();
-
-                if (existing == null)
-                {
-                    _context.MuseumSchedules.Add(schedule); // adaugă program nou
-                }
-                else
-                {
-                    existing.DayOfWeek = schedule.DayOfWeek;
-                    existing.OpeningHour = schedule.OpeningHour;
-                    existing.ClosingHour = schedule.ClosingHour;
-
-                    _context.MuseumSchedules.Update(existing); 
-                }
-
+                _context.MuseumSchedules.Add(schedule);
                 _context.SaveChanges();
-                return RedirectToAction("DashboardAdmin");
+                return RedirectToAction("IndexMuseumSchedule");
             }
+            return View(schedule);
+        }
 
+        public IActionResult UpdateMuseumSchedule(int id)
+        {
+            var schedule = _context.MuseumSchedules.Find(id);
+            return View(schedule);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateMuseumSchedule(MuseumSchedule schedule)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.MuseumSchedules.Update(schedule);
+                _context.SaveChanges();
+                return RedirectToAction("IndexMuseumSchedule");
+            }
             return View(schedule);
         }
 
 
-        // DISCOUNTS
+        
         public IActionResult ManageDiscounts() => View(_context.Discounts.ToList());
 
-        // FAQ
+        
         public IActionResult ListFAQ() => View(_context.Faqs.ToList());
 
         [HttpPost]
@@ -305,10 +305,7 @@ namespace Museum_Management_System.Controllers
             return RedirectToAction("ListFAQ");
         }
 
-        // REPORT
         
-
-        // PROFILE
         public IActionResult Profile()
         {
             return RedirectToAction("ViewProfile", "UsersAuth");

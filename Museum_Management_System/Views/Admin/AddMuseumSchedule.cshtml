@@ -1,0 +1,23 @@
+﻿@model Museum_Management_System.Models.MuseumSchedule
+@{
+    ViewData["Title"] = "Add Museum Schedule";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Add Museum Schedule</h2>
+
+<form asp-action="AddMuseumSchedule" method="post">
+    <div class="mb-3">
+        <label asp-for="DayOfWeek" class="form-label">Day</label>
+        <input asp-for="DayOfWeek" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="OpeningHour" class="form-label">Opening Hour</label>
+        <input asp-for="OpeningHour" type="time" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="ClosingHour" class="form-label">Closing Hour</label>
+        <input asp-for="ClosingHour" type="time" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
