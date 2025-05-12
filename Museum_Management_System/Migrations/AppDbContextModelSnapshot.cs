@@ -95,7 +95,7 @@ namespace Museum_Management_System.Migrations
                         .HasColumnType("text")
                         .HasColumnName("historical_period");
 
-                    b.Property<int>("IdSection")
+                    b.Property<int?>("IdSection")
                         .HasColumnType("integer")
                         .HasColumnName("id_section");
 
@@ -241,9 +241,6 @@ namespace Museum_Management_System.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdTicket"));
 
-                    b.Property<int?>("DiscountIdDiscount")
-                        .HasColumnType("integer");
-
                     b.Property<double>("FinalPrice")
                         .HasColumnType("double precision")
                         .HasColumnName("final_price");
@@ -265,8 +262,6 @@ namespace Museum_Management_System.Migrations
                         .HasColumnName("purchase_date");
 
                     b.HasKey("IdTicket");
-
-                    b.HasIndex("DiscountIdDiscount");
 
                     b.HasIndex("IdDiscount");
 
@@ -482,9 +477,7 @@ namespace Museum_Management_System.Migrations
                 {
                     b.HasOne("Museum_Management_System.Models.Section", "Section")
                         .WithMany("Exhibits")
-                        .HasForeignKey("IdSection")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdSection");
 
                     b.Navigation("Section");
                 });
@@ -493,18 +486,16 @@ namespace Museum_Management_System.Migrations
                 {
                     b.HasOne("Museum_Management_System.Models.Exhibit", "Exhibit")
                         .WithMany("Reviews")
-                        .HasForeignKey("IdExhibit")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("IdExhibit");
 
                     b.HasOne("Museum_Management_System.Models.Tour", "Tour")
                         .WithMany("Reviews")
-                        .HasForeignKey("IdTour")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("IdTour");
 
                     b.HasOne("Museum_Management_System.Models.Users", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("IdUsers")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Exhibit");
@@ -516,14 +507,9 @@ namespace Museum_Management_System.Migrations
 
             modelBuilder.Entity("Museum_Management_System.Models.Ticket", b =>
                 {
-                    b.HasOne("Museum_Management_System.Models.Discount", null)
-                        .WithMany("Tickets")
-                        .HasForeignKey("DiscountIdDiscount");
-
                     b.HasOne("Museum_Management_System.Models.Discount", "Discount")
-                        .WithMany()
-                        .HasForeignKey("IdDiscount")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany("Tickets")
+                        .HasForeignKey("IdDiscount");
 
                     b.HasOne("Museum_Management_System.Models.TicketType", "TicketType")
                         .WithMany("Tickets")
@@ -534,7 +520,7 @@ namespace Museum_Management_System.Migrations
                     b.HasOne("Museum_Management_System.Models.Users", "User")
                         .WithMany("Tickets")
                         .HasForeignKey("IdUsers")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Discount");
@@ -549,7 +535,7 @@ namespace Museum_Management_System.Migrations
                     b.HasOne("Museum_Management_System.Models.TourGuide", "TourGuide")
                         .WithMany("Tours")
                         .HasForeignKey("IdTourGuide")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("TourGuide");
@@ -560,13 +546,13 @@ namespace Museum_Management_System.Migrations
                     b.HasOne("Museum_Management_System.Models.Tour", "Tour")
                         .WithMany("TourBookings")
                         .HasForeignKey("IdTour")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Museum_Management_System.Models.Users", "User")
                         .WithMany("TourBookings")
                         .HasForeignKey("IdUsers")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Tour");
@@ -579,7 +565,7 @@ namespace Museum_Management_System.Migrations
                     b.HasOne("Museum_Management_System.Models.Users", "User")
                         .WithOne("TourGuides")
                         .HasForeignKey("Museum_Management_System.Models.TourGuide", "IdUsers")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -590,7 +576,7 @@ namespace Museum_Management_System.Migrations
                     b.HasOne("Museum_Management_System.Models.TourGuide", "TourGuide")
                         .WithMany("Schedules")
                         .HasForeignKey("IdTourGuide")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("TourGuide");

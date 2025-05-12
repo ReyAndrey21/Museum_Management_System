@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 public class Tour
 {
     [Key]
@@ -24,10 +25,12 @@ public class Tour
     public TimeOnly HourTour { get; set; }
     [ForeignKey("TourGuide")]
     [Column("id_tour_guide")]
-
     public int IdTourGuide { get; set; }
     public TourGuide? TourGuide { get; set; }
 
+    [InverseProperty("Tour")]
     public ICollection<TourBooking>? TourBookings { get; set; }
+    
+    [InverseProperty("Tour")]
     public ICollection<Review>? Reviews { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 namespace Museum_Management_System.Models;
 
 public class Users
@@ -28,9 +29,15 @@ public class Users
     [Column("role")]
     public string? Role { get; set; }
 
+    [InverseProperty("User")]
     public ICollection<Ticket>? Tickets { get; set; }
+    
+    [InverseProperty("User")]
     public ICollection<Review>? Reviews { get; set; }
+    
+    [InverseProperty("User")]
     public ICollection<TourBooking>? TourBookings { get; set; }
 
+    [InverseProperty("User")]
     public TourGuide? TourGuides { get; set; }
 }

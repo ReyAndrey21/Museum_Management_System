@@ -105,17 +105,42 @@ namespace Museum_Management_System.Controllers
         }
 
         public IActionResult UpdateSection(int id) => View(_context.Sections.Find(id));
+        
         [HttpPost]
-        public IActionResult UpdateSection(Section s)
+        public IActionResult UpdateSection(Section updatedSection)
         {
+            var existingSection = _context.Sections.FirstOrDefault(s => s.IdSection == updatedSection.IdSection);
+            if (existingSection == null)
+                return NotFound();
+
             if (ModelState.IsValid)
             {
-                _context.Sections.Update(s);
+                existingSection.NameSection = updatedSection.NameSection;
+                existingSection.Description = updatedSection.Description;
+
+                
+                if (updatedSection.ImageSectionFile != null && updatedSection.ImageSectionFile.Length > 0)
+                {
+                    var fileName = Path.GetFileName(updatedSection.ImageSectionFile.FileName);
+                    var filePath = Path.Combine(_env.WebRootPath, "images/images_sections", fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        updatedSection.ImageSectionFile.CopyTo(stream);
+                    }
+                    existingSection.ImageSection = fileName;
+                }
+
+                
+
+                _context.Sections.Update(existingSection);
                 _context.SaveChanges();
+
                 return RedirectToAction("IndexSections");
             }
-            return View(s);
+
+            return View(updatedSection);
         }
+
 
         public IActionResult DeleteSection(int id)
         {
@@ -169,21 +194,49 @@ namespace Museum_Management_System.Controllers
 
         public IActionResult UpdateExhibit(int id) => View(_context.Exhibits.Find(id));
         [HttpPost]
-        public IActionResult UpdateExhibit(Exhibit e)
+        public IActionResult UpdateExhibit(Exhibit updatedExhibit)
         {
+            var existingExhibit = _context.Exhibits.FirstOrDefault(e => e.IdExhibit == updatedExhibit.IdExhibit);
+            if (existingExhibit == null)
+                return NotFound();
+
             if (ModelState.IsValid)
             {
-                _context.Exhibits.Update(e);
+                existingExhibit.NameExhibit = updatedExhibit.NameExhibit;
+                existingExhibit.Description = updatedExhibit.Description;
+                existingExhibit.HistoricalPeriod = updatedExhibit.HistoricalPeriod;
+                existingExhibit.CategoryExhibit = updatedExhibit.CategoryExhibit;
+                existingExhibit.IdSection = updatedExhibit.IdSection;
+
+                
+                if (updatedExhibit.ImageExhibitFile != null && updatedExhibit.ImageExhibitFile.Length > 0)
+                {
+                    var fileName = Path.GetFileName(updatedExhibit.ImageExhibitFile.FileName);
+                    var filePath = Path.Combine(_env.WebRootPath, "images/images_exhibits", fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        updatedExhibit.ImageExhibitFile.CopyTo(stream);
+                    }
+
+                    existingExhibit.ImageExhibit = fileName;
+                }
+
+                
+                _context.Exhibits.Update(existingExhibit);
                 _context.SaveChanges();
+
                 return RedirectToAction("IndexExhibits");
             }
-            return View(e);
+
+            return View(updatedExhibit);
         }
+
 
         public IActionResult DeleteExhibit(int id)
         {
             var exhibit = _context.Exhibits
                 .Include(e => e.Reviews)
+                .Include(e => e.Section)
                 .FirstOrDefault(e => e.IdExhibit == id);
             return View(exhibit);
         }
@@ -193,11 +246,11 @@ namespace Museum_Management_System.Controllers
         {
             var exhibit = _context.Exhibits
                 .Include(e => e.Reviews)
+                .Include(e => e.Section)
                 .FirstOrDefault(e => e.IdExhibit == id);
             
             if (exhibit != null)
             {
-                
                 _context.Exhibits.Remove(exhibit);
                 _context.SaveChanges();
             }

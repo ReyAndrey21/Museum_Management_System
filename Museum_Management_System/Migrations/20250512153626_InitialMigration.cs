@@ -130,7 +130,7 @@ namespace Museum_Management_System.Migrations
                     historical_period = table.Column<string>(type: "text", nullable: true),
                     category_exhibit = table.Column<string>(type: "text", nullable: true),
                     image_exhibit = table.Column<string>(type: "text", nullable: true),
-                    id_section = table.Column<int>(type: "integer", nullable: false)
+                    id_section = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,8 +139,7 @@ namespace Museum_Management_System.Migrations
                         name: "FK_Exhibits_Sections_id_section",
                         column: x => x.id_section,
                         principalTable: "Sections",
-                        principalColumn: "id_section",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id_section");
                 });
 
             migrationBuilder.CreateTable(
@@ -153,23 +152,16 @@ namespace Museum_Management_System.Migrations
                     final_price = table.Column<double>(type: "double precision", nullable: false),
                     id_ticket_type = table.Column<int>(type: "integer", nullable: false),
                     id_users = table.Column<int>(type: "integer", nullable: false),
-                    id_discount = table.Column<int>(type: "integer", nullable: true),
-                    DiscountIdDiscount = table.Column<int>(type: "integer", nullable: true)
+                    id_discount = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tickets", x => x.id_ticket);
                     table.ForeignKey(
-                        name: "FK_Tickets_Discounts_DiscountIdDiscount",
-                        column: x => x.DiscountIdDiscount,
-                        principalTable: "Discounts",
-                        principalColumn: "id_discount");
-                    table.ForeignKey(
                         name: "FK_Tickets_Discounts_id_discount",
                         column: x => x.id_discount,
                         principalTable: "Discounts",
-                        principalColumn: "id_discount",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "id_discount");
                     table.ForeignKey(
                         name: "FK_Tickets_TicketTypes_id_ticket_type",
                         column: x => x.id_ticket_type,
@@ -181,7 +173,7 @@ namespace Museum_Management_System.Migrations
                         column: x => x.id_users,
                         principalTable: "Users",
                         principalColumn: "id_users",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,7 +194,7 @@ namespace Museum_Management_System.Migrations
                         column: x => x.id_users,
                         principalTable: "Users",
                         principalColumn: "id_users",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,7 +216,7 @@ namespace Museum_Management_System.Migrations
                         column: x => x.id_tour_guide,
                         principalTable: "TourGuides",
                         principalColumn: "id_tour_guide",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,7 +241,7 @@ namespace Museum_Management_System.Migrations
                         column: x => x.id_tour_guide,
                         principalTable: "TourGuides",
                         principalColumn: "id_tour_guide",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -272,20 +264,18 @@ namespace Museum_Management_System.Migrations
                         name: "FK_Reviews_Exhibits_id_exhibit",
                         column: x => x.id_exhibit,
                         principalTable: "Exhibits",
-                        principalColumn: "id_exhibit",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "id_exhibit");
                     table.ForeignKey(
                         name: "FK_Reviews_Tours_id_tour",
                         column: x => x.id_tour,
                         principalTable: "Tours",
-                        principalColumn: "id_tour",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "id_tour");
                     table.ForeignKey(
                         name: "FK_Reviews_Users_id_users",
                         column: x => x.id_users,
                         principalTable: "Users",
                         principalColumn: "id_users",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -306,13 +296,13 @@ namespace Museum_Management_System.Migrations
                         column: x => x.id_tour,
                         principalTable: "Tours",
                         principalColumn: "id_tour",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TourBookings_Users_id_users",
                         column: x => x.id_users,
                         principalTable: "Users",
                         principalColumn: "id_users",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -334,11 +324,6 @@ namespace Museum_Management_System.Migrations
                 name: "IX_Reviews_id_users",
                 table: "Reviews",
                 column: "id_users");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_DiscountIdDiscount",
-                table: "Tickets",
-                column: "DiscountIdDiscount");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_id_discount",

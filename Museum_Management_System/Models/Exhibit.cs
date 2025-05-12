@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 public class Exhibit
 {
     [Key]
@@ -22,8 +23,7 @@ public class Exhibit
     public IFormFile? ImageExhibitFile { get; set; }
     [ForeignKey("Section")]
     [Column("id_section")]
-    public int IdSection { get; set; }
+    public int? IdSection { get; set; }
     public Section? Section { get; set; }
-
     public ICollection<Review>? Reviews { get; set; }
 }
