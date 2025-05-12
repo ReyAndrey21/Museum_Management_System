@@ -117,14 +117,25 @@ namespace Museum_Management_System.Controllers
             return View(s);
         }
 
-        public IActionResult DeleteSection(int id) => View(_context.Sections.Find(id));
+        public IActionResult DeleteSection(int id)
+        {
+            var section = _context.Sections
+                .Include(s => s.Exhibits)
+                .FirstOrDefault(s => s.IdSection == id);
+            return View(section);
+        }
+
         [HttpPost]
         public IActionResult ConfirmDeleteSection(int id)
         {
-            var s = _context.Sections.Find(id);
-            if (s != null)
+            var section = _context.Sections
+                .Include(s => s.Exhibits)
+                .FirstOrDefault(s => s.IdSection == id);
+            
+            if (section != null)
             {
-                _context.Sections.Remove(s);
+                
+                _context.Sections.Remove(section);
                 _context.SaveChanges();
             }
             return RedirectToAction("IndexSections");
@@ -169,14 +180,25 @@ namespace Museum_Management_System.Controllers
             return View(e);
         }
 
-        public IActionResult DeleteExhibit(int id) => View(_context.Exhibits.Find(id));
+        public IActionResult DeleteExhibit(int id)
+        {
+            var exhibit = _context.Exhibits
+                .Include(e => e.Reviews)
+                .FirstOrDefault(e => e.IdExhibit == id);
+            return View(exhibit);
+        }
+
         [HttpPost]
         public IActionResult ConfirmDeleteExhibit(int id)
         {
-            var e = _context.Exhibits.Find(id);
-            if (e != null)
+            var exhibit = _context.Exhibits
+                .Include(e => e.Reviews)
+                .FirstOrDefault(e => e.IdExhibit == id);
+            
+            if (exhibit != null)
             {
-                _context.Exhibits.Remove(e);
+                
+                _context.Exhibits.Remove(exhibit);
                 _context.SaveChanges();
             }
             return RedirectToAction("IndexExhibits");

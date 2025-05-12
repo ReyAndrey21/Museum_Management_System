@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Museum_Management_System.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250511113137_NewMigration2")]
-    partial class NewMigration2
+    [Migration("20250512105920_SecondMigration")]
+    partial class SecondMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -497,7 +497,7 @@ namespace Museum_Management_System.Migrations
                     b.HasOne("Museum_Management_System.Models.Exhibit", "Exhibit")
                         .WithMany("Reviews")
                         .HasForeignKey("IdExhibit")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Museum_Management_System.Models.Tour", "Tour")
                         .WithMany("Reviews")

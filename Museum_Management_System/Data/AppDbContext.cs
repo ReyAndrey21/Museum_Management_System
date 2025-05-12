@@ -28,6 +28,27 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasForeignKey(e => e.IdSection)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // Configure Exhibit-Review relationship with cascade delete
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.Exhibit)
+            .WithMany(e => e.Reviews)
+            .HasForeignKey(r => r.IdExhibit)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Configure Review-User relationship
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.User)
+            .WithMany(u => u.Reviews)
+            .HasForeignKey(r => r.IdUsers)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Configure Review-Tour relationship
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.Tour)
+            .WithMany(t => t.Reviews)
+            .HasForeignKey(r => r.IdTour)
+            .OnDelete(DeleteBehavior.SetNull);
+
         // Configure Ticket-User relationship
         modelBuilder.Entity<Ticket>()
             .HasOne(t => t.User)
@@ -47,27 +68,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasOne(t => t.Discount)
             .WithMany()
             .HasForeignKey(t => t.IdDiscount)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        // Configure Review-Exhibit relationship
-        modelBuilder.Entity<Review>()
-            .HasOne(r => r.Exhibit)
-            .WithMany(e => e.Reviews)
-            .HasForeignKey(r => r.IdExhibit)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        // Configure Review-User relationship
-        modelBuilder.Entity<Review>()
-            .HasOne(r => r.User)
-            .WithMany(u => u.Reviews)
-            .HasForeignKey(r => r.IdUsers)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        // Configure Review-Tour relationship
-        modelBuilder.Entity<Review>()
-            .HasOne(r => r.Tour)
-            .WithMany(t => t.Reviews)
-            .HasForeignKey(r => r.IdTour)
             .OnDelete(DeleteBehavior.SetNull);
 
         // Configure TourBooking-Tour relationship

@@ -494,7 +494,7 @@ namespace Museum_Management_System.Migrations
                     b.HasOne("Museum_Management_System.Models.Exhibit", "Exhibit")
                         .WithMany("Reviews")
                         .HasForeignKey("IdExhibit")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Museum_Management_System.Models.Tour", "Tour")
                         .WithMany("Reviews")

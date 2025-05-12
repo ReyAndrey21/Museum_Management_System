@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Museum_Management_System.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,7 +34,7 @@ namespace Museum_Management_System.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     first_name = table.Column<string>(type: "text", nullable: true),
                     last_name = table.Column<string>(type: "text", nullable: true),
-                    hire_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    hire_date = table.Column<DateOnly>(type: "date", nullable: false),
                     salary = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
@@ -63,8 +63,8 @@ namespace Museum_Management_System.Migrations
                     id_museum_schedule = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     day_of_week = table.Column<string>(type: "text", nullable: true),
-                    opening_hour = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    closing_hour = table.Column<TimeSpan>(type: "interval", nullable: false)
+                    opening_hour = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    closing_hour = table.Column<TimeOnly>(type: "time without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,6 +84,20 @@ namespace Museum_Management_System.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sections", x => x.id_section);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketTypes",
+                columns: table => new
+                {
+                    id_ticket_type = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    type_name = table.Column<string>(type: "text", nullable: true),
+                    base_price = table.Column<double>(type: "double precision", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketTypes", x => x.id_ticket_type);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,26 +149,39 @@ namespace Museum_Management_System.Migrations
                 {
                     id_ticket = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    price = table.Column<double>(type: "double precision", nullable: false),
-                    purchase_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ticket_type = table.Column<string>(type: "text", nullable: true),
+                    purchase_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    final_price = table.Column<double>(type: "double precision", nullable: false),
+                    id_ticket_type = table.Column<int>(type: "integer", nullable: false),
                     id_users = table.Column<int>(type: "integer", nullable: false),
-                    UserIdUsers = table.Column<int>(type: "integer", nullable: true),
-                    id_discount = table.Column<int>(type: "integer", nullable: true)
+                    id_discount = table.Column<int>(type: "integer", nullable: true),
+                    DiscountIdDiscount = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tickets", x => x.id_ticket);
                     table.ForeignKey(
-                        name: "FK_Tickets_Discounts_id_discount",
-                        column: x => x.id_discount,
+                        name: "FK_Tickets_Discounts_DiscountIdDiscount",
+                        column: x => x.DiscountIdDiscount,
                         principalTable: "Discounts",
                         principalColumn: "id_discount");
                     table.ForeignKey(
-                        name: "FK_Tickets_Users_UserIdUsers",
-                        column: x => x.UserIdUsers,
+                        name: "FK_Tickets_Discounts_id_discount",
+                        column: x => x.id_discount,
+                        principalTable: "Discounts",
+                        principalColumn: "id_discount",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Tickets_TicketTypes_id_ticket_type",
+                        column: x => x.id_ticket_type,
+                        principalTable: "TicketTypes",
+                        principalColumn: "id_ticket_type",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Users_id_users",
+                        column: x => x.id_users,
                         principalTable: "Users",
-                        principalColumn: "id_users");
+                        principalColumn: "id_users",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,17 +192,17 @@ namespace Museum_Management_System.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     status = table.Column<string>(type: "text", nullable: true),
                     foreign_languages = table.Column<string>(type: "text", nullable: true),
-                    id_users = table.Column<int>(type: "integer", nullable: false),
-                    UserIdUsers = table.Column<int>(type: "integer", nullable: true)
+                    id_users = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TourGuides", x => x.id_tour_guide);
                     table.ForeignKey(
-                        name: "FK_TourGuides_Users_UserIdUsers",
-                        column: x => x.UserIdUsers,
+                        name: "FK_TourGuides_Users_id_users",
+                        column: x => x.id_users,
                         principalTable: "Users",
-                        principalColumn: "id_users");
+                        principalColumn: "id_users",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -185,8 +212,8 @@ namespace Museum_Management_System.Migrations
                     id_tour_guide_schedule = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     day_of_week = table.Column<string>(type: "text", nullable: true),
-                    start_hour = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    end_hour = table.Column<TimeSpan>(type: "interval", nullable: false),
+                    start_hour = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    end_hour = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     id_tour_guide = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -197,7 +224,7 @@ namespace Museum_Management_System.Migrations
                         column: x => x.id_tour_guide,
                         principalTable: "TourGuides",
                         principalColumn: "id_tour_guide",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,8 +237,8 @@ namespace Museum_Management_System.Migrations
                     description = table.Column<string>(type: "text", nullable: true),
                     available_spots = table.Column<int>(type: "integer", nullable: false),
                     duration = table.Column<int>(type: "integer", nullable: false),
-                    date_tour = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    hour_tour = table.Column<TimeSpan>(type: "interval", nullable: false),
+                    date_tour = table.Column<DateOnly>(type: "date", nullable: false),
+                    hour_tour = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     id_tour_guide = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -222,7 +249,7 @@ namespace Museum_Management_System.Migrations
                         column: x => x.id_tour_guide,
                         principalTable: "TourGuides",
                         principalColumn: "id_tour_guide",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -233,9 +260,8 @@ namespace Museum_Management_System.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     rating = table.Column<int>(type: "integer", nullable: false),
                     comment = table.Column<string>(type: "text", nullable: true),
-                    date_review = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    date_review = table.Column<DateOnly>(type: "date", nullable: false),
                     id_users = table.Column<int>(type: "integer", nullable: false),
-                    UserIdUsers = table.Column<int>(type: "integer", nullable: true),
                     id_exhibit = table.Column<int>(type: "integer", nullable: true),
                     id_tour = table.Column<int>(type: "integer", nullable: true)
                 },
@@ -246,17 +272,20 @@ namespace Museum_Management_System.Migrations
                         name: "FK_Reviews_Exhibits_id_exhibit",
                         column: x => x.id_exhibit,
                         principalTable: "Exhibits",
-                        principalColumn: "id_exhibit");
+                        principalColumn: "id_exhibit",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reviews_Tours_id_tour",
                         column: x => x.id_tour,
                         principalTable: "Tours",
-                        principalColumn: "id_tour");
+                        principalColumn: "id_tour",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
-                        name: "FK_Reviews_Users_UserIdUsers",
-                        column: x => x.UserIdUsers,
+                        name: "FK_Reviews_Users_id_users",
+                        column: x => x.id_users,
                         principalTable: "Users",
-                        principalColumn: "id_users");
+                        principalColumn: "id_users",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -277,13 +306,13 @@ namespace Museum_Management_System.Migrations
                         column: x => x.id_tour,
                         principalTable: "Tours",
                         principalColumn: "id_tour",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TourBookings_Users_id_users",
                         column: x => x.id_users,
                         principalTable: "Users",
                         principalColumn: "id_users",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -302,9 +331,14 @@ namespace Museum_Management_System.Migrations
                 column: "id_tour");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UserIdUsers",
+                name: "IX_Reviews_id_users",
                 table: "Reviews",
-                column: "UserIdUsers");
+                column: "id_users");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_DiscountIdDiscount",
+                table: "Tickets",
+                column: "DiscountIdDiscount");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_id_discount",
@@ -312,9 +346,14 @@ namespace Museum_Management_System.Migrations
                 column: "id_discount");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_UserIdUsers",
+                name: "IX_Tickets_id_ticket_type",
                 table: "Tickets",
-                column: "UserIdUsers");
+                column: "id_ticket_type");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_id_users",
+                table: "Tickets",
+                column: "id_users");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TourBookings_id_tour",
@@ -327,9 +366,10 @@ namespace Museum_Management_System.Migrations
                 column: "id_users");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TourGuides_UserIdUsers",
+                name: "IX_TourGuides_id_users",
                 table: "TourGuides",
-                column: "UserIdUsers");
+                column: "id_users",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TourGuideSchedules_id_tour_guide",
@@ -371,6 +411,9 @@ namespace Museum_Management_System.Migrations
 
             migrationBuilder.DropTable(
                 name: "Discounts");
+
+            migrationBuilder.DropTable(
+                name: "TicketTypes");
 
             migrationBuilder.DropTable(
                 name: "Tours");
