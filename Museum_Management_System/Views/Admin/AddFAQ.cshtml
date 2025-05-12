@@ -1,0 +1,21 @@
+﻿@model Museum_Management_System.Models.Faq
+@{
+    ViewData["Title"] = "Add FAQ";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Add FAQ</h2>
+
+<form asp-action="AddFAQ" method="post">
+    <div class="mb-3">
+        <label asp-for="Question" class="form-label">Question</label>
+        <input asp-for="Question" class="form-control" />
+        
+    </div>
+    <div class="mb-3">
+        <label asp-for="Answer" class="form-label">Answer</label>
+        <textarea asp-for="Answer" class="form-control"></textarea>
+        
+    </div>
+    <button type="submit" class="btn btn-primary">Add FAQ</button>
+</form>

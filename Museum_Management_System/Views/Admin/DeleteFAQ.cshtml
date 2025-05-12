@@ -1,0 +1,15 @@
+﻿@model Museum_Management_System.Models.Faq
+@{
+    ViewData["Title"] = "Delete FAQ";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Are you sure you want to delete this FAQ?</h2>
+
+<div class="mb-3"><strong>Question:</strong> @Model.Question</div>
+<div class="mb-3"><strong>Answer:</strong> @Model.Answer</div>
+
+<form asp-action="ConfirmDeleteFAQ" asp-route-id="@Model.IdFAQ" method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="/Admin/IndexFAQ" class="btn btn-secondary">Cancel</a>
+</form>

@@ -10,8 +10,7 @@
     Are you sure you want to delete <strong>@Model.FirstName @Model.LastName</strong>?
 </div>
 
-<form asp-action="ConfirmDeleteEmployee">
-    <input type="hidden" asp-for="Id" />
+<form asp-action="ConfirmDeleteEmployee" asp-route-id="@Model.Id" method="post">
     <button type="submit" class="btn btn-danger">Yes, Delete</button>
     <a href="/Admin/IndexEmployees" class="btn btn-secondary">Cancel</a>
 </form>

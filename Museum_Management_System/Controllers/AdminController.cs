@@ -142,31 +142,20 @@ namespace Museum_Management_System.Controllers
         }
 
 
-        public IActionResult DeleteSection(int id)
-        {
-            var section = _context.Sections
-                .Include(s => s.Exhibits)
-                .FirstOrDefault(s => s.IdSection == id);
-            return View(section);
-        }
-
+        public IActionResult DeleteSection(int id) => View(_context.Sections.Find(id));
         [HttpPost]
         public IActionResult ConfirmDeleteSection(int id)
         {
-            var section = _context.Sections
-                .Include(s => s.Exhibits)
-                .FirstOrDefault(s => s.IdSection == id);
-            
+            var section = _context.Sections.Find(id);
             if (section != null)
             {
-                
                 _context.Sections.Remove(section);
                 _context.SaveChanges();
             }
             return RedirectToAction("IndexSections");
         }
 
-       
+
         public IActionResult IndexExhibits() =>
             View(_context.Exhibits.Include(e => e.Section).ToList());
 
@@ -232,23 +221,11 @@ namespace Museum_Management_System.Controllers
         }
 
 
-        public IActionResult DeleteExhibit(int id)
-        {
-            var exhibit = _context.Exhibits
-                .Include(e => e.Reviews)
-                .Include(e => e.Section)
-                .FirstOrDefault(e => e.IdExhibit == id);
-            return View(exhibit);
-        }
-
+        public IActionResult DeleteExhibit(int id) => View(_context.Exhibits.Find(id));
         [HttpPost]
         public IActionResult ConfirmDeleteExhibit(int id)
         {
-            var exhibit = _context.Exhibits
-                .Include(e => e.Reviews)
-                .Include(e => e.Section)
-                .FirstOrDefault(e => e.IdExhibit == id);
-            
+            var exhibit = _context.Exhibits.Find(id);
             if (exhibit != null)
             {
                 _context.Exhibits.Remove(exhibit);
@@ -354,9 +331,12 @@ namespace Museum_Management_System.Controllers
         
         public IActionResult ManageDiscounts() => View(_context.Discounts.ToList());
 
-        
-        public IActionResult ListFAQ() => View(_context.Faqs.ToList());
 
+        
+        public IActionResult IndexFAQ() => View(_context.Faqs.ToList());
+
+        
+        public IActionResult AddFAQ() => View();
         [HttpPost]
         public IActionResult AddFAQ(Faq faq)
         {
@@ -364,12 +344,40 @@ namespace Museum_Management_System.Controllers
             {
                 _context.Faqs.Add(faq);
                 _context.SaveChanges();
-                return RedirectToAction("ListFAQ");
+                return RedirectToAction("IndexFAQ");
             }
-            return View("ListFAQ");
+            return View(faq);
         }
 
+        // EDITARE
+        public IActionResult UpdateFAQ(int id)
+        {
+            var faq = _context.Faqs.Find(id);
+            return View(faq);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateFAQ(Faq faq)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Faqs.Update(faq);
+                _context.SaveChanges();
+                return RedirectToAction("IndexFAQ");
+            }
+            return View(faq);
+        }
+
+        
         public IActionResult DeleteFAQ(int id)
+        {
+            var faq = _context.Faqs.Find(id);
+            return View(faq);
+        }
+
+
+        [HttpPost]
+        public IActionResult ConfirmDeleteFAQ(int id)
         {
             var faq = _context.Faqs.Find(id);
             if (faq != null)
@@ -377,10 +385,9 @@ namespace Museum_Management_System.Controllers
                 _context.Faqs.Remove(faq);
                 _context.SaveChanges();
             }
-            return RedirectToAction("ListFAQ");
+            return RedirectToAction("IndexFAQ");
         }
 
-        
         public IActionResult Profile()
         {
             return RedirectToAction("ViewProfile", "UsersAuth");

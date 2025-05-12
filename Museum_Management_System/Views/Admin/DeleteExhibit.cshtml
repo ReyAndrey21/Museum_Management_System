@@ -10,8 +10,7 @@
     Are you sure you want to delete <strong>@Model.NameExhibit</strong>?
 </div>
 
-<form asp-action="ConfirmDeleteExhibit" method="post">
-    <input type="hidden" asp-for="IdExhibit" />
+<form asp-action="ConfirmDeleteExhibit" asp-route-id="@Model.IdExhibit" method="post">
     <button type="submit" class="btn btn-danger">Yes, delete</button>
     <a href="/Admin/IndexExhibits" class="btn btn-secondary">Cancel</a>
 </form>

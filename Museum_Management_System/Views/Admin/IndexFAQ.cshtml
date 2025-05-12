@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Museum_Management_System.Models.Faq>
+
+@{
+    ViewData["Title"] = "FAQ Management";
+}
+
+<div class="container mt-4">
+    <h2>FAQ Management</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (TempData["Debug"] != null)
+    {
+        <div class="alert alert-info">
+            Debug: @TempData["Debug"]
+        </div>
+    }
+
+    <p>
+        <a asp-action="CreateFAQ" class="btn btn-primary">Create New FAQ</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Question</td>
+                    <td>@item.Answer</td>
+                    <td>
+                        <a asp-action="EditFAQ" asp-route-id="@item.IdFAQ" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="DeleteFAQ" asp-route-id="@item.IdFAQ" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -10,8 +10,7 @@
     Are you sure you want to delete <strong>@Model.TypeName</strong>?
 </div>
 
-<form asp-action="ConfirmDeleteTicketType" method="post">
-    <input type="hidden" asp-for="IdTicketType" />
+<form asp-action="ConfirmDeleteTicketType" asp-route-id="@Model.IdTicketType" method="post">
     <button type="submit" class="btn btn-danger">Yes, delete</button>
     <a href="/Admin/IndexTicketTypes" class="btn btn-secondary">Cancel</a>
 </form>
