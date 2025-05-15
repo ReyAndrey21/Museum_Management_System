@@ -218,5 +218,11 @@ namespace Museum_Management_System.Controllers
                 return RedirectToAction("ViewExhibitsFromSections", new { id = exhibit.IdSection });
             return RedirectToAction("ViewSections");
         }
+
+        public IActionResult ViewFAQ()
+        {
+            var faqs = _context.Faqs.ToList();
+            return View(faqs);
+        }
     }
 }

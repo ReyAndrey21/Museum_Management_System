@@ -12,7 +12,7 @@
                     <h4>Profile Information</h4>
                 </div>
                 <div class="card-body">
-                    <partial name="_ProfileForm" model="Model" />
+<partial name="_ProfileForm" model="Model" />
                 </div>
             </div>
         </div>
@@ -124,9 +124,9 @@
 
     <div class="row mt-4">
         <div class="col-12">
-            <form asp-action="DeleteAccount" asp-controller="UsersAuth" method="post" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+<form asp-action="DeleteAccount" asp-controller="UsersAuth" method="post" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
                 <button type="submit" class="btn btn-danger">Delete Account</button>
-            </form>
+</form>
         </div>
     </div>
 </div>
