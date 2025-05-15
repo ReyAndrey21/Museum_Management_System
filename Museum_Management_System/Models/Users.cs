@@ -28,16 +28,8 @@ public class Users
 
     [Column("role")]
     public string? Role { get; set; }
-
-    [InverseProperty("User")]
     public ICollection<Ticket>? Tickets { get; set; }
-    
-    [InverseProperty("User")]
     public ICollection<Review>? Reviews { get; set; }
-    
-    [InverseProperty("User")]
     public ICollection<TourBooking>? TourBookings { get; set; }
-
-    [InverseProperty("User")]
     public TourGuide? TourGuides { get; set; }
 }

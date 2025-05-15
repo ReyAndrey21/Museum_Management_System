@@ -1,0 +1,65 @@
+@model Museum_Management_System.Models.Users
+@{
+    ViewData["Title"] = "Profilul meu (Ghid de Tur)";
+    Layout = "~/Views/Shared/TourGuideLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Informații profil</h4>
+                </div>
+                <div class="card-body">
+                    <partial name="_ProfileForm" model="Model" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+            {
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">Imagine profil</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="@Url.Content($"~/images/profile_picture/{Model.ProfilePicture}")" class="img-fluid rounded mb-3" style="max-height: 250px;" alt="Profile Picture" />
+                    </div>
+                </div>
+            }
+
+            <div class="card border-0 shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Acțiuni rapide</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a asp-controller="TourGuide" asp-action="Index" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-calendar-alt me-2"></i> Gestiune tururi
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a asp-controller="TourGuide" asp-action="DashboardTourGuide" class="btn btn-outline-secondary w-100">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a asp-controller="UsersAuth" asp-action="Logout" class="btn btn-outline-danger w-100">
+                                <i class="fas fa-sign-out-alt me-2"></i> Deconectare
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

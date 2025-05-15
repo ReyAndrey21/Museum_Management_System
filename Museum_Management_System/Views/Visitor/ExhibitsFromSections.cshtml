@@ -1,0 +1,106 @@
+﻿@model Museum_Management_System.Models.Section
+@{
+    ViewData["Title"] = "Exhibits in " + Model.NameSection;
+    Layout = "~/Views/Shared/VisitorLayout.cshtml";
+}
+
+<h2 class="mb-4 text-center">Exhibits in @Model.NameSection</h2>
+
+@if (Model.Exhibits == null || !Model.Exhibits.Any())
+{
+    <p class="text-muted">No exhibits available in this section.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var exhibit in Model.Exhibits)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="~/images/images_exhibits/@exhibit.ImageExhibit" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Exhibit Image" />
+                    <div class="card-body">
+                        <h5 class="card-title">@exhibit.NameExhibit</h5>
+                        <p class="card-text">
+                            <strong>Period:</strong> @exhibit.HistoricalPeriod<br />
+                            <strong>Category:</strong> @exhibit.CategoryExhibit
+                        </p>
+                        <!-- Formular review -->
+                        <form asp-action="AddExhibitReview" asp-controller="Visitor" method="post" class="mb-2">
+                            <input type="hidden" name="idExhibit" value="@exhibit.IdExhibit" />
+                            <div class="mb-2">
+                                <label class="form-label">Rating:</label>
+                                <div class="star-rating" style="font-size:1.5rem; display: inline-flex;">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <input type="radio" id="star-@exhibit.IdExhibit-@i" name="rating" value="@i" style="display:none;" required />
+                                        <label for="star-@exhibit.IdExhibit-@i" style="color: #ccc; cursor:pointer;">&#9733;</label>
+                                    }
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Feedback:</label>
+                                <textarea name="text" class="form-control form-control-sm" rows="2" maxlength="500" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Trimite review</button>
+                        </form>
+                        <!-- Lista review-uri -->
+                        <div>
+                            <strong>Review-uri:</strong>
+                            @if (exhibit.Reviews != null && exhibit.Reviews.Any())
+                            {
+                                <ul class="list-unstyled mb-0">
+                                    @foreach (var review in exhibit.Reviews.OrderByDescending(r => r.IdReview))
+                                    {
+                                        <li class="mb-1">
+                                            <span class="badge bg-warning text-dark">@review.Rating stele</span>
+                                            <span>@review.Comment</span>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Niciun review încă.</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+<a href="@Url.Action("ViewSections", "Visitor")" class="btn btn-secondary mt-3">Back to Sections</a>
+
+<script>
+    // Star rating color fill on hover and select (stânga-dreapta)
+    document.querySelectorAll('.star-rating').forEach(function(starRating) {
+        const stars = Array.from(starRating.querySelectorAll('label'));
+        const radios = Array.from(starRating.querySelectorAll('input[type="radio"]'));
+        function fillStars(idx) {
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].style.color = i <= idx ? '#ffc107' : '#ccc';
+            }
+        }
+        stars.forEach(function(star, idx) {
+            star.addEventListener('mouseenter', function() {
+                fillStars(idx);
+            });
+            star.addEventListener('mouseleave', function() {
+                let checkedIdx = radios.findIndex(r => r.checked);
+                if (checkedIdx !== -1) {
+                    fillStars(checkedIdx);
+                } else {
+                    for (let i = 0; i < stars.length; i++) stars[i].style.color = '#ccc';
+                }
+            });
+            star.addEventListener('click', function() {
+                fillStars(idx);
+            });
+        });
+        // Inițializare la încărcare (dacă există rating selectat)
+        let checkedIdx = radios.findIndex(r => r.checked);
+        if (checkedIdx !== -1) {
+            fillStars(checkedIdx);
+        }
+    });
+</script>

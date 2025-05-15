@@ -1,0 +1,79 @@
+﻿@model Museum_Management_System.Models.Tour
+
+@{
+    ViewData["Title"] = "Creează Tur Nou";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-8 col-lg-6">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label asp-for="AvailableSpots" class="form-label">Locuri Disponibile (Total)</label>
+                    <input asp-for="AvailableSpots" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="AvailableSpots" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Duration" class="form-label">Durată (minute)</label>
+                    <input asp-for="Duration" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label asp-for="DateTour" class="form-label"></label>
+                    <input asp-for="DateTour" class="form-control" type="date" />
+                    <span asp-validation-for="DateTour" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="HourTour" class="form-label"></label>
+                    <input asp-for="HourTour" class="form-control" type="time" />
+                    <span asp-validation-for="HourTour" class="text-danger"></span>
+                </div>
+            </div>
+
+            @* Adaugă input pentru Status dacă vrei să-l setezi la creare *@
+            @* <div class="mb-3">
+                    <label asp-for="Status" class="form-label"></label>
+                    <input asp-for="Status" class="form-control" value="Upcoming" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div> *@
+
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Salvează Tur
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Anulare
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

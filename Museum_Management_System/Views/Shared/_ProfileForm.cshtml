@@ -1,0 +1,59 @@
+﻿@model Museum_Management_System.Models.Users
+
+<h2>My Profile</h2>
+
+<form asp-controller="UsersAuth" asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="IdUsers" />
+
+    <div class="mb-3">
+        <label asp-for="Username" class="form-label">Username</label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label">First Name</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label">Last Name</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Role" class="form-label">Role</label>
+        <input asp-for="Role" readonly class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProfilePictureFile" class="form-label">Upload Profile Picture</label>
+        <input asp-for="ProfilePictureFile" type="file" class="form-control" />
+        <span asp-validation-for="ProfilePictureFile" class="text-danger"></span>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+    {
+        <div class="mb-3">
+            <label class="form-label">Current Picture:</label><br />
+            <img src="~/images/profile_picture/@Model.ProfilePicture"
+                 class="img-thumbnail" width="150" />
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+</form>
+
+

@@ -1,0 +1,97 @@
+@model Museum_Management_System.Controllers.TourGuideProfileViewModel
+
+@{
+    ViewData["Title"] = "Dashboard Ghid Tur";
+    Layout = "~/Views/Shared/TourGuideLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Bine ați venit, @(string.IsNullOrEmpty(Model.FirstName) ? Model.Username : Model.FirstName)!</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center mb-3 mb-md-0">
+                            @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+                            {
+                                <img src="@Url.Content($"~/images/profile_picture/{Model.ProfilePicture}")" class="img-fluid rounded-circle mb-3" style="max-width: 150px; max-height: 150px;" alt="Profile Picture" />
+                            }
+                            else
+                            {
+                                <div class="rounded-circle bg-secondary d-flex justify-content-center align-items-center mx-auto mb-3" style="width: 150px; height: 150px;">
+                                    <span class="text-white display-4">@((!string.IsNullOrEmpty(Model.FirstName) && !string.IsNullOrEmpty(Model.LastName)) ? Model.FirstName[0].ToString() + Model.LastName[0].ToString() : "GT")</span>
+                                </div>
+                            }
+                            <h4>@(Model.FirstName + " " + Model.LastName)</h4>
+                            <p class="text-muted">@Model.Username</p>
+                            <div class="badge bg-success">Ghid de Tur</div>
+                        </div>
+                        <div class="col-md-9">
+                            <h4 class="border-bottom pb-2">Informații Ghid</h4>
+                            <div class="row mb-3">
+                                <div class="col-md-4 fw-bold">Status:</div>
+                                <div class="col-md-8">@(string.IsNullOrEmpty(Model.Status) ? "Nespecificat" : Model.Status)</div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4 fw-bold">Limbi străine:</div>
+                                <div class="col-md-8">@(string.IsNullOrEmpty(Model.ForeignLanguages) ? "Nespecificat" : Model.ForeignLanguages)</div>
+                            </div>
+                            <div class="mt-4">
+                                <a asp-controller="TourGuide" asp-action="Index" class="btn btn-primary">
+                                    Vizualizare Tururi
+                                </a>
+                                <a asp-controller="UsersAuth" asp-action="ViewProfile" class="btn btn-outline-secondary">
+                                    Editare Profil
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-alt fa-3x text-primary mb-3"></i>
+                    <h4>Gestionare Tururi</h4>
+                    <p>Creați, modificați sau anulați tururile dvs.</p>
+                    <a asp-controller="TourGuide" asp-action="Index" class="btn btn-primary mt-3">
+                        Accesează
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-book fa-3x text-success mb-3"></i>
+                    <h4>Vizualizare Exponate</h4>
+                    <p>Explorați exponatele din muzeu pentru pregătirea tururilor</p>
+                    <a asp-controller="TourGuide" asp-action="ViewExhibits" class="btn btn-success mt-3">
+                        Accesează
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-user fa-3x text-info mb-3"></i>
+                    <h4>Profil Personal</h4>
+                    <p>Actualizați informațiile dvs. personale și profesionale</p>
+                    <a asp-controller="UsersAuth" asp-action="ViewProfile" class="btn btn-info mt-3">
+                        Accesează
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

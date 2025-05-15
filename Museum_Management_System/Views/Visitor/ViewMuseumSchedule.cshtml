@@ -1,0 +1,28 @@
+﻿@model List<Museum_Management_System.Models.MuseumSchedule>
+
+@{
+    ViewData["Title"] = "Museum Schedule";
+    Layout = "~/Views/Shared/VisitorLayout.cshtml";
+}
+
+<h2 class="mb-4">Museum Schedule</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Day</th>
+            <th scope="col">Opening Hour</th>
+            <th scope="col">Closing Hour</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schedule in Model)
+        {
+            <tr>
+                <td>@schedule.DayOfWeek</td>
+                <td>@schedule.OpeningHour</td>
+                <td>@schedule.ClosingHour</td>
+            </tr>
+        }
+    </tbody>
+</table>

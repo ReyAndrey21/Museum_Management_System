@@ -27,10 +27,6 @@ public class Tour
     [Column("id_tour_guide")]
     public int IdTourGuide { get; set; }
     public TourGuide? TourGuide { get; set; }
-
-    [InverseProperty("Tour")]
     public ICollection<TourBooking>? TourBookings { get; set; }
-    
-    [InverseProperty("Tour")]
     public ICollection<Review>? Reviews { get; set; }
 }

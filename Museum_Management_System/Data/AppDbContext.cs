@@ -19,7 +19,94 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<TicketType> TicketTypes { get; set; }
 
-    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        
+        modelBuilder.Entity<Exhibit>()
+            .HasOne(e => e.Section)
+            .WithMany(s => s.Exhibits)
+            .HasForeignKey(e => e.IdSection)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Ticket → User (Restrict: nu ștergi User dacă are bilete)
+        modelBuilder.Entity<Ticket>()
+            .HasOne(t => t.User)
+            .WithMany(u => u.Tickets)
+            .HasForeignKey(t => t.IdUsers)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        
+        modelBuilder.Entity<Ticket>()
+            .HasOne(t => t.TicketType)
+            .WithMany(tt => tt.Tickets)
+            .HasForeignKey(t => t.IdTicketType)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        
+        modelBuilder.Entity<Ticket>()
+            .HasOne(t => t.Discount)
+            .WithMany()
+            .HasForeignKey(t => t.IdDiscount)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // Review → Exhibit (Restrict)
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.Exhibit)
+            .WithMany(e => e.Reviews)
+            .HasForeignKey(r => r.IdExhibit)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Review → User (Restrict)
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.User)
+            .WithMany(u => u.Reviews)
+            .HasForeignKey(r => r.IdUsers)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Review → Tour (optional, SetNull)
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.Tour)
+            .WithMany(t => t.Reviews)
+            .HasForeignKey(r => r.IdTour)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // TourBooking → Tour (Restrict)
+        modelBuilder.Entity<TourBooking>()
+            .HasOne(tb => tb.Tour)
+            .WithMany(t => t.TourBookings)
+            .HasForeignKey(tb => tb.IdTour)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // TourBooking → User (Restrict)
+        modelBuilder.Entity<TourBooking>()
+            .HasOne(tb => tb.User)
+            .WithMany(u => u.TourBookings)
+            .HasForeignKey(tb => tb.IdUsers)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Tour → TourGuide (Restrict)
+        modelBuilder.Entity<Tour>()
+            .HasOne(t => t.TourGuide)
+            .WithMany(g => g.Tours)
+            .HasForeignKey(t => t.IdTourGuide)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // TourGuide → User (Restrict)
+        modelBuilder.Entity<TourGuide>()
+            .HasOne(g => g.User)
+            .WithOne(u => u.TourGuides)
+            .HasForeignKey<TourGuide>(g => g.IdUsers)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        
+        modelBuilder.Entity<TourGuideSchedule>()
+            .HasOne(s => s.TourGuide)
+            .WithMany(g => g.Schedules)
+            .HasForeignKey(s => s.IdTourGuide)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
+
 
 
 

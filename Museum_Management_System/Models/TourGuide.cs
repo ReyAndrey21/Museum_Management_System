@@ -16,7 +16,6 @@ public class TourGuide
     [Column("id_users")]
     public int IdUsers { get; set; }
     public Users? User { get; set; }
-
     public ICollection<TourGuideSchedule>? Schedules { get; set; }
     public ICollection<Tour>? Tours { get; set; }
 }

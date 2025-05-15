@@ -1,0 +1,70 @@
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Admin Reports";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Admin Reports</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Revenue from Tickets</h5>
+                <p class="card-text fs-4">@ViewBag.TotalRevenue RON</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Unique Visitors</h5>
+                <p class="card-text fs-4">@ViewBag.TotalVisitors</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">Top 10 Most Popular Exhibits (by Reviews)</h5>
+    </div>
+    <div class="card-body">
+        <canvas id="exhibitChart" height="120"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const exhibitNames = @Html.Raw(JsonSerializer.Serialize(ViewBag.TopExhibitsNames));
+        const reviewCounts = @Html.Raw(JsonSerializer.Serialize(ViewBag.TopExhibitsReviews));
+        const ctx = document.getElementById('exhibitChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: exhibitNames,
+                datasets: [{
+                    label: 'Number of Reviews',
+                    data: reviewCounts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
+            }
+        });
+    </script>
+} 

@@ -1,0 +1,28 @@
+﻿@model Museum_Management_System.Models.Tour
+@{
+    ViewData["Title"] = "Book Tour";
+    Layout = "~/Views/Shared/VisitorLayout.cshtml";
+}
+
+<h2>Book Tour</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Title</h4>
+        <p><strong>Description:</strong> @Model.Description</p>
+        <p><strong>Date:</strong> @Model.DateTour.ToShortDateString()</p>
+        <p><strong>Time:</strong> @Model.HourTour</p>
+        <p><strong>Duration:</strong> @Model.Duration</p>
+        <p><strong>Available Spots:</strong> @Model.AvailableSpots</p>
+        <p><strong>Guide:</strong> @Model.TourGuide?.User?.FirstName @Model.TourGuide?.User?.LastName</p>
+
+        <form method="post" asp-action="BookTour" asp-route-id="@Model.IdTour">
+            <div class="mb-3">
+                <label for="numberOfTickets" class="form-label">Number of Tickets</label>
+                <input type="number" name="numberOfTickets" id="numberOfTickets" class="form-control" min="1" max="@Model.AvailableSpots" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        </form>
+    </div>
+</div>

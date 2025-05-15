@@ -1,0 +1,46 @@
+﻿@model Museum_Management_System.Models.Ticket
+@{
+    ViewData["Title"] = "Buy Ticket";
+    Layout = "~/Views/Shared/VisitorLayout.cshtml";
+}
+
+<div class="container">
+    <h2>Buy Ticket</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" asp-action="BuyTicket">
+                <div class="mb-3">
+                    <label class="form-label">Ticket Type</label>
+                    <select asp-for="IdTicketType" class="form-select">
+                        @foreach (var type in ViewBag.TicketTypes)
+                        {
+                            <option value="@type.IdTicketType">@type.TypeName - @type.BasePrice RON</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Discount (optional)</label>
+                    <select asp-for="IdDiscount" class="form-select">
+                        <option value="">-- None --</option>
+                        @foreach (var disc in ViewBag.Discounts)
+                        {
+                            <option value="@disc.IdDiscount">@disc.BeneficiaryCategory - @disc.PercentageDiscount%</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Buy</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -16,6 +16,5 @@ public class Section
     public string? ImageSection { get; set; }
     [NotMapped]
     public IFormFile? ImageSectionFile { get; set; }
-
     public ICollection<Exhibit>? Exhibits { get; set; }
 }

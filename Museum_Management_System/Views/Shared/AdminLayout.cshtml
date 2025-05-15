@@ -54,11 +54,11 @@
         <a href="/Admin/IndexSections">Sections</a>
         <a href="/Admin/IndexExhibits">Exhibits</a>
         <a href="/Admin/IndexTicketTypes">Tickets</a>
-        <a href="/Admin/ManageDiscounts">Discounts</a>
+        <a href="/Admin/IndexDiscounts">Discounts</a>
         <a href="/Admin/IndexMuseumSchedule">Schedule</a>
         <a href="/Admin/IndexFAQ">FAQ</a>
-        <a href="/Admin/GenerateReport">Reports</a>
-        <a href="/Admin/Profile">My Profile</a>
+        <a href="/Admin/Reports">Reports</a>
+        <a href="/Admin/ViewProfileAdmin">My Profile</a>
 
         <div class="logout-btn mt-auto">
             <a href="/Admin/Logout" class="btn btn-danger w-100">Logout</a>
@@ -70,5 +70,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Museum_Management_System.Models.Tour>
+
+@{
+    ViewData["Title"] = "Dashboard Ghid - Tururile Mele";
+    Layout = "~/Views/Shared/TourGuideLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@* Secțiune pentru afișarea mesajelor TempData (succes, eroare, info) *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @TempData["InfoMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary mb-3">
+        Creează un Tur Nou @* Text în loc de iconiță *@
+    </a>
+</p>
+
+@if (Model == null || !Model.Any())
+{
+    <p>Nu ai creat niciun tur încă sau nu s-au putut încărca datele.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().DateTour)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().HourTour)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().Duration) (min)
+                    </th>
+                    <th>
+                        Locuri Disponibile / Total
+                    </th>
+                    <th>Acțiuni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var bookedSpots = item.TourBookings?.Sum(b => b.NumberTickets) ?? 0;
+                    var availableSpotsDisplay = item.AvailableSpots - bookedSpots;
+                    var isUpcoming = item.DateTour >= DateOnly.FromDateTime(DateTime.Today);
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @item.DateTour.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.HourTour.ToString(@"hh\:mm")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Duration)
+                        </td>
+                        <td>
+                            @availableSpotsDisplay / @item.AvailableSpots
+                        </td>
+                        <td>
+                            @* --- SECȚIUNEA DE BUTOANE MODIFICATĂ FĂRĂ FONT AWESOME --- *@
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Acțiuni Tur">
+                                <a asp-action="Edit" asp-route-id="@item.IdTour" class="btn btn-outline-primary" title="Editare Tur">
+                                    Editare @* Text în loc de iconiță *@
+                                </a>
+                                <a asp-action="Cancel" asp-route-id="@item.IdTour" class="btn btn-outline-danger" title="Anulare Tur">
+                                    Anulare @* Text în loc de iconiță *@
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.IdTour" class="btn btn-outline-info" title="Detalii Tur">
+                                    Detalii @* Text în loc de iconiță *@
+                                </a>
+                                <form asp-action="RequestFeedback" method="post" class="d-inline" style="margin-left: 4px;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="tourId" value="@item.IdTour" />
+                                    <button type="submit" class="btn btn-outline-success" title="Solicită Feedback Participanți">
+                                        Feedback @* Text în loc de iconiță *@
+                                    </button>
+                                </form>
+                            </div>
+                            @* --- SFÂRȘIT SECȚIUNE BUTOANE --- *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

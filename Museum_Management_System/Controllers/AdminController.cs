@@ -286,8 +286,16 @@ namespace Museum_Management_System.Controllers
 
 
         // REVIEWS
-        public IActionResult ViewAllReviews() =>
-            View(_context.Reviews.Include(r => r.User).Include(r => r.Exhibit).ToList());
+        public IActionResult ViewAllReviews()
+        {
+            var reviews = _context.Reviews
+                .Include(r => r.User)
+                .Include(r => r.Exhibit)
+                .Include(r => r.Tour)
+                .OrderByDescending(r => r.DateReview)
+                .ToList();
+            return View(reviews);
+        }
 
         
         public IActionResult IndexMuseumSchedule()
@@ -328,11 +336,55 @@ namespace Museum_Management_System.Controllers
         }
 
 
-        
-        public IActionResult ManageDiscounts() => View(_context.Discounts.ToList());
-
 
         
+        public IActionResult IndexDiscounts()
+        {
+            var discounts = _context.Discounts.ToList();
+            return View(discounts);
+        }
+
+        
+        public IActionResult AddDiscount() => View();
+
+        [HttpPost]
+        public IActionResult AddDiscount(Discount discount)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Discounts.Add(discount);
+                _context.SaveChanges();
+                return RedirectToAction("IndexDiscounts");
+            }
+            return View(discount);
+        }
+
+        
+        public IActionResult UpdateDiscount(int id)
+        {
+            var discount = _context.Discounts.Find(id);
+            if (discount == null)
+                return NotFound();
+            return View(discount);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateDiscount(Discount discount)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Discounts.Update(discount);
+                _context.SaveChanges();
+                return RedirectToAction("IndexDiscounts");
+            }
+            return View(discount);
+        }
+
+        
+
+
+
+
         public IActionResult IndexFAQ() => View(_context.Faqs.ToList());
 
         
@@ -388,9 +440,46 @@ namespace Museum_Management_System.Controllers
             return RedirectToAction("IndexFAQ");
         }
 
-        public IActionResult Profile()
+        public IActionResult ViewProfileAdmin()
         {
-            return RedirectToAction("ViewProfile", "UsersAuth");
+            var id = HttpContext.Session.GetInt32("IdUsers");
+            if (id == null)
+                return RedirectToAction("Login", "UsersAuth");
+
+            var user = _context.Users.Find(id);
+            if (user == null)
+                return NotFound();
+
+            return View("ViewProfileAdmin", user);
         }
+
+        public IActionResult ViewAllTickets()
+        {
+            var tickets = _context.Tickets
+                .Include(t => t.User)
+                .Include(t => t.TicketType)
+                .Include(t => t.Discount)
+                .OrderByDescending(t => t.PurchaseDate)
+                .ToList();
+            return View(tickets);
+        }
+
+        public IActionResult Reports()
+        {
+            ViewBag.TotalRevenue = _context.Tickets.Sum(t => t.FinalPrice);
+            ViewBag.TotalVisitors = _context.Tickets.Select(t => t.IdUsers).Distinct().Count();
+            ViewBag.TopExhibitsNames = _context.Exhibits
+                .OrderByDescending(e => e.Reviews.Count())
+                .Take(10)
+                .Select(e => e.NameExhibit)
+                .ToList();
+            ViewBag.TopExhibitsReviews = _context.Exhibits
+                .OrderByDescending(e => e.Reviews.Count())
+                .Take(10)
+                .Select(e => e.Reviews.Count())
+                .ToList();
+            return View();
+        }
+
     }
 }

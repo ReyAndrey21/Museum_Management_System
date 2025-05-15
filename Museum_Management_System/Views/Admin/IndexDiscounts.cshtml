@@ -1,0 +1,30 @@
+﻿@model List<Museum_Management_System.Models.Discount>
+@{
+    ViewData["Title"] = "Discount List";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Discounts</h2>
+<a href="/Admin/AddDiscount" class="btn btn-primary mb-3">Add New Discount</a>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Beneficiary Category</th>
+            <th>Percentage (%)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.BeneficiaryCategory</td>
+                <td>@d.PercentageDiscount</td>
+                <td>
+                    <a href="/Admin/UpdateDiscount/@d.IdDiscount" class="btn btn-warning btn-sm">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

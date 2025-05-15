@@ -45,12 +45,36 @@ namespace Museum_Management_System.Controllers
             if (user != null)
             {
                 HttpContext.Session.SetInt32("IdUsers", user.IdUsers);
+                HttpContext.Session.SetString("UserRole", user.Role ?? "");
+                // Store name in session
+                string displayName = !string.IsNullOrEmpty(user.FirstName) ? $"{user.FirstName} {user.LastName}" : user.Username ?? user.Email;
+                HttpContext.Session.SetString("UserName", displayName);
+                
                 if (user.Role == "admin")
                     return RedirectToAction("DashboardAdmin", "Admin");
                 else if (user.Role == "visitor")
                     return RedirectToAction("DashboardVisitor", "Visitor");
                 else if (user.Role == "tour guide")
+                {
+                    // Verifică dacă există un profil de ghid asociat utilizatorului
+                    var tourGuide = _context.TourGuides.FirstOrDefault(tg => tg.IdUsers == user.IdUsers);
+                    if (tourGuide == null)
+                    {
+                        // Crează automat un profil de ghid pentru utilizator dacă nu există
+                        tourGuide = new TourGuide
+                        {
+                            IdUsers = user.IdUsers,
+                            Status = "Activ",
+                            ForeignLanguages = "Română"
+                        };
+                        _context.TourGuides.Add(tourGuide);
+                        _context.SaveChanges();
+                    }
+                    
+                    
+                    HttpContext.Session.SetInt32("IdTourGuide", tourGuide.IdTourGuide);
                     return RedirectToAction("DashboardTourGuide", "TourGuide");
+                }
             }
 
             ViewBag.Error = "Incorrect email or password.";
@@ -73,8 +97,20 @@ namespace Museum_Management_System.Controllers
             if (user == null)
                 return NotFound();
 
-            return View(user);
+            var role = user.Role?.ToLower();
+
+            if (role == "admin")
+                return RedirectToAction("ViewProfileAdmin", "Admin");
+
+            if (role == "visitor")
+                return RedirectToAction("ViewProfileVisitor", "Visitor");
+                
+            if (role == "tour guide")
+                return RedirectToAction("ViewProfileTourGuide", "TourGuide");
+
+            return View("ViewProfile", user); 
         }
+
 
 
         [HttpPost]
@@ -118,6 +154,24 @@ namespace Museum_Management_System.Controllers
             _context.SaveChanges();
             return RedirectToAction(nameof(ViewProfile));
         }
+
+        public IActionResult DeleteAccount()
+        {
+            var id = HttpContext.Session.GetInt32("IdUsers");
+            if (id == null)
+                return RedirectToAction("Login");
+
+            var user = _context.Users.Find(id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+                HttpContext.Session.Clear(); 
+            }
+
+            return RedirectToAction("Register");
+        }
+
 
 
     }

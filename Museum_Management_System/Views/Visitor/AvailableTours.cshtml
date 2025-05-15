@@ -1,0 +1,21 @@
+﻿@model List<Museum_Management_System.Models.Tour>
+@{
+    ViewData["Title"] = "Available Tours";
+    Layout = "~/Views/Shared/VisitorLayout.cshtml";
+}
+
+<h2>Available Guided Tours</h2>
+
+@foreach (var tour in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5>@tour.Title</h5>
+            <p>@tour.Description</p>
+            <p><strong>Date:</strong> @tour.DateTour.ToShortDateString() @tour.HourTour</p>
+            <p><strong>Guide:</strong> @tour.TourGuide?.User?.FirstName @tour.TourGuide?.User?.LastName</p>
+            <p><strong>Spots:</strong> @tour.AvailableSpots</p>
+            <a class="btn btn-primary" href="@Url.Action("BookTour", "Visitor", new { id = tour.IdTour })">Book</a>
+        </div>
+    </div>
+}

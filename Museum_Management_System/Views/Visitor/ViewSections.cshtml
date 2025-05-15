@@ -1,0 +1,25 @@
+﻿@model List<Museum_Management_System.Models.Section>
+@{
+    ViewData["Title"] = "Museum Sections";
+    Layout = "~/Views/Shared/VisitorLayout.cshtml";
+}
+
+<h2 class="text-center mb-4">Museum Sections</h2>
+
+<div class="row">
+    @foreach (var sec in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <img src="~/images/images_sections/@sec.ImageSection" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Section Image" />
+                <div class="card-body">
+                    <h5 class="card-title">@sec.NameSection</h5>
+                    <p class="card-text">@sec.Description</p>
+                    <a class="btn btn-outline-primary w-100" href="@Url.Action("ViewExhibitsFromSections", "Visitor", new { id = sec.IdSection })">
+                        View Exhibits
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

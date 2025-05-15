@@ -2,56 +2,31 @@
 
 @{
     ViewData["Title"] = "FAQ Management";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <h2>FAQ Management</h2>
+<a href="/Admin/AddFAQ" class="btn btn-success mb-3">Add FAQ</a>
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
-        </div>
-    }
-
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["Error"]
-        </div>
-    }
-
-    @if (TempData["Debug"] != null)
-    {
-        <div class="alert alert-info">
-            Debug: @TempData["Debug"]
-        </div>
-    }
-
-    <p>
-        <a asp-action="CreateFAQ" class="btn btn-primary">Create New FAQ</a>
-    </p>
-
-    <table class="table">
-        <thead>
+<table class="table table-bordered table-striped align-middle" style="max-width: 100%;">
+    <thead class="table-light">
+        <tr>
+            <th style="width: 25%;">Question</th>
+            <th style="width: 60%;">Answer</th>
+            <th style="width: 15%;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var faq in Model)
+        {
             <tr>
-                <th>Question</th>
-                <th>Answer</th>
-                <th>Actions</th>
+                <td>@faq.Question</td>
+                <td style="word-break: break-word; white-space: pre-line;">@faq.Answer</td>
+                <td>
+                    <a href="@Url.Action("UpdateFAQ", new { id = faq.IdFAQ })" class="btn btn-warning btn-sm me-1">Edit</a>
+                    <a href="@Url.Action("DeleteFAQ", new { id = faq.IdFAQ })" class="btn btn-danger btn-sm">Delete</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Question</td>
-                    <td>@item.Answer</td>
-                    <td>
-                        <a asp-action="EditFAQ" asp-route-id="@item.IdFAQ" class="btn btn-warning btn-sm">Edit</a>
-                        <a asp-action="DeleteFAQ" asp-route-id="@item.IdFAQ" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+        }
+    </tbody>
+</table>
+

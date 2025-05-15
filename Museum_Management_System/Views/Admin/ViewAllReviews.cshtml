@@ -1,0 +1,51 @@
+@model List<Museum_Management_System.Models.Review>
+@{
+    ViewData["Title"] = "All Reviews";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">All Reviews</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Exhibit/Tour</th>
+            <th>User</th>
+            <th>Rating</th>
+            <th>Text</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model)
+        {
+            <tr>
+                <td>
+                    @if (review.IdExhibit != null)
+                    {
+                        <span class="badge bg-primary">Exhibit</span>
+                    }
+                    else if (review.IdTour != null)
+                    {
+                        <span class="badge bg-success">Tour</span>
+                    }
+                </td>
+                <td>
+                    @if (review.Exhibit != null)
+                    {
+                        @review.Exhibit.NameExhibit
+                    }
+                    else if (review.Tour != null)
+                    {
+                        @review.Tour.Title
+                    }
+                </td>
+                <td>@(review.User?.Username ?? "-")</td>
+                <td><span class="badge bg-warning text-dark">@review.Rating stele</span></td>
+                <td>@review.Comment</td>
+                <td>@(review.DateReview is DateOnly d ? d.ToString("dd.MM.yyyy") : review.DateReview.ToString())</td>
+            </tr>
+        }
+    </tbody>
+</table> 

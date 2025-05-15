@@ -1,0 +1,29 @@
+﻿@model List<Museum_Management_System.Models.Ticket>
+@{
+    ViewData["Title"] = "My Tickets";
+    Layout = "~/Views/Shared/VisitorLayout.cshtml";
+}
+
+<h2>My Ticket History</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Discount</th>
+            <th>Final Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.PurchaseDate</td>
+                <td>@t.TicketType?.TypeName</td>
+                <td>@t.Discount?.PercentageDiscount%</td>
+                <td>@t.FinalPrice RON</td>
+            </tr>
+        }
+    </tbody>
+</table>

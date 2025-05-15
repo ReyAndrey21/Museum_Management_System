@@ -14,6 +14,5 @@ public class TicketType
 
     [Column("base_price")]
     public double BasePrice { get; set; }
-
     public ICollection<Ticket>? Tickets { get; set; }
 }

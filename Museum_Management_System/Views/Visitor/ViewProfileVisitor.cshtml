@@ -1,0 +1,133 @@
+﻿@model Museum_Management_System.Models.Users
+@{
+    Layout = "~/Views/Shared/VisitorLayout.cshtml";
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Profile Information</h4>
+                </div>
+                <div class="card-body">
+                    <partial name="_ProfileForm" model="Model" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+            {
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Profile Picture</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="~/images/profile_picture/@Model.ProfilePicture" class="img-fluid rounded" style="max-height: 200px;" alt="Profile Picture" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>My Tickets</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Tickets != null && Model.Tickets.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Discount</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var ticket in Model.Tickets)
+                                    {
+                                        <tr>
+                                            <td>@ticket.PurchaseDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@ticket.TicketType?.TypeName</td>
+                                            <td>
+                                                @(ticket.Discount != null
+                                                    ? $"{ticket.Discount.BeneficiaryCategory} ({ticket.Discount.PercentageDiscount}%)"
+                                                    : "None")
+                                            </td>
+                                            <td>@ticket.FinalPrice RON</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No tickets purchased yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>My Tour Bookings</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.TourBookings != null && Model.TourBookings.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tour</th>
+                                        <th>Date</th>
+                                        <th>Tickets</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var booking in Model.TourBookings)
+                                    {
+                                        <tr>
+                                            <td>@booking.Tour?.Title</td>
+                                            <td>@booking.Tour?.DateTour.ToString("dd/MM/yyyy")</td>
+                                            <td>@booking.NumberTickets</td>
+                                            <td>
+                                                <form asp-action="CancelTourBooking" asp-controller="Visitor" method="post" style="display:inline;">
+                                                    <input type="hidden" name="id" value="@booking.IdTourBooking" />
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Sigur vrei să anulezi această rezervare?');">Anulează</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No tour bookings yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <form asp-action="DeleteAccount" asp-controller="UsersAuth" method="post" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                <button type="submit" class="btn btn-danger">Delete Account</button>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\images_exhibits\" />
     <Folder Include="wwwroot\images\images_sections\" />
+    <Folder Include="wwwroot\images\images_visitor_dashboard\" />
     <Folder Include="wwwroot\images\profile_picture\" />
   </ItemGroup>
 

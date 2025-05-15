@@ -1,0 +1,35 @@
+@model List<Museum_Management_System.Models.Ticket>
+@{
+    ViewData["Title"] = "All Tickets";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">All Tickets</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Type</th>
+            <th>Discount</th>
+            <th>Final Price</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ticket in Model)
+        {
+            <tr>
+                <td>@(ticket.User?.Username ?? "-")</td>
+                <td>@ticket.TicketType?.TypeName</td>
+                <td>
+                    @(ticket.Discount != null
+                        ? $"{ticket.Discount.BeneficiaryCategory} ({ticket.Discount.PercentageDiscount}%)"
+                        : "None")
+                </td>
+                <td>@ticket.FinalPrice RON</td>
+                <td>@ticket.PurchaseDate.ToString("dd.MM.yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table> 

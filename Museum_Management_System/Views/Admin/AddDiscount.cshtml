@@ -1,0 +1,21 @@
+﻿@model Museum_Management_System.Models.Discount
+@{
+    ViewData["Title"] = "Add Discount";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Add Discount</h2>
+
+<form asp-action="AddDiscount" method="post">
+    <div class="mb-3">
+        <label asp-for="BeneficiaryCategory" class="form-label">Category</label>
+        <input asp-for="BeneficiaryCategory" class="form-control" />
+        <span asp-validation-for="BeneficiaryCategory" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PercentageDiscount" class="form-label">Discount (%)</label>
+        <input asp-for="PercentageDiscount" type="number" class="form-control" />
+        <span asp-validation-for="PercentageDiscount" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+</form>

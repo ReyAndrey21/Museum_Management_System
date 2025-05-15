@@ -8,7 +8,7 @@ public class Discount
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id_discount")]
     public int IdDiscount { get; set; }
-    [Column("percentage_discout")]
+    [Column("percentage_discount")]
     public double PercentageDiscount { get; set; }
     [Column("beneficiary_category")]
     public string? BeneficiaryCategory { get; set; }
