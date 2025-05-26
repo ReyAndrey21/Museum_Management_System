@@ -16,4 +16,6 @@ public class Employee
     public DateOnly HireDate { get; set; }
     [Column("salary")]
     public double Salary { get; set; }
+    [Column("position")]
+    public string? Position { get; set; }
 }

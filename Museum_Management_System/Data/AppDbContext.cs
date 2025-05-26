@@ -33,7 +33,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasOne(t => t.User)
             .WithMany(u => u.Tickets)
             .HasForeignKey(t => t.IdUsers)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         
         modelBuilder.Entity<Ticket>()
@@ -75,7 +75,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasOne(tb => tb.Tour)
             .WithMany(t => t.TourBookings)
             .HasForeignKey(tb => tb.IdTour)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         // TourBooking → User (Restrict)
         modelBuilder.Entity<TourBooking>()

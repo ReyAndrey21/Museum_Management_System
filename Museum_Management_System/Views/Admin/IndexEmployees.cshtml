@@ -13,6 +13,7 @@
             <th>Last Name</th>
             <th>Hire Date</th>
             <th>Salary</th>
+			<th>Position</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -24,6 +25,7 @@
                 <td>@e.LastName</td>
                 <td>@e.HireDate.ToString("yyyy-MM-dd")</td>
                 <td>@e.Salary.ToString("C")</td>
+				<td>@e.Position</td>
                 <td>
                     <a href="/Admin/UpdateEmployee/@e.Id" class="btn btn-warning btn-sm">Edit</a>
                     <a href="/Admin/DeleteEmployee/@e.Id" class="btn btn-danger btn-sm">Delete</a>

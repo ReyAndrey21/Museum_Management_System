@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Museum_Management_System", "Museum_Management_System\Museum_Management_System.csproj", "{B7FCA8B3-E0ED-4E1B-9B4C-96D512628F6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{63FD7AE6-286E-40F9-AC5F-15888A6FCD04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B7FCA8B3-E0ED-4E1B-9B4C-96D512628F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7FCA8B3-E0ED-4E1B-9B4C-96D512628F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7FCA8B3-E0ED-4E1B-9B4C-96D512628F6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63FD7AE6-286E-40F9-AC5F-15888A6FCD04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63FD7AE6-286E-40F9-AC5F-15888A6FCD04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63FD7AE6-286E-40F9-AC5F-15888A6FCD04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63FD7AE6-286E-40F9-AC5F-15888A6FCD04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
